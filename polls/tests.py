@@ -35,6 +35,25 @@ class QuestionModelTest(TestCase):
         recent_question = Question(pub_date=time)
         self.assertIs(recent_question.was_published_recently(), True)
 
+    def test_is_published_method(self):
+        """
+        is_published() returns True for questions whose pub_date is in the past
+        """
+        time = timezone.now() - datetime.timedelta(days=30)
+        old_question = Question(pub_date=time)
+        self.assertIs(old_question.is_published(), True)
+
+    def test_can_vote_methods(self):
+        """
+        can_vote() returns True for questions whose pub_date is in the past
+        """
+        time = timezone.now() - datetime.timedelta(days=30)
+        old_question = Question(pub_date=time)
+        self.assertIs(old_question.can_vote(), True)
+        end_time = timezone.now() + datetime.timedelta(days=30)
+        new_question = Question(pub_date=time, end_date=end_time)
+        self.assertIs(new_question.can_vote(), True)
+
 
 def create_question(question_text, days):
     """

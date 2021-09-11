@@ -1,5 +1,7 @@
+from django.utils import timezone
+from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic
 from .models import Question, Choice
@@ -19,6 +21,7 @@ class IndexView(generic.ListView):
             pub_date__lte=timezone.now()
         ).order_by('-pub_date')[:5]
 
+
 class DetailView(generic.DetailView):
     model = Question
     template_name = 'polls/detail.html'
@@ -28,6 +31,15 @@ class DetailView(generic.DetailView):
         Excludes any questions that aren't published yet.
         """
         return Question.objects.filter(pub_date__lte=timezone.now())
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.can_vote():
+            return render(request, 'polls/detail.html', self.get_context_data())
+        else:
+            messages.error(request, "Voting is not allowed")
+            return redirect('polls:index')
+
 
 class ResultsView(generic.DetailView):
     model = Question

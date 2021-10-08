@@ -1,5 +1,8 @@
 # KU Polls
 
+[![Continuous Integration](https://github.com/HelloYeew/ku-polls/actions/workflows/django.yml/badge.svg)](https://github.com/HelloYeew/ku-polls/actions/workflows/django.yml)
+[![codecov](https://codecov.io/gh/HelloYeew/ku-polls/branch/main/graph/badge.svg?token=4XF39OU11C)](https://codecov.io/gh/HelloYeew/ku-polls)
+
 A web application for conducting polls at [Kasetsart University](https://www.ku.ac.th).
 
 ## Project Documents

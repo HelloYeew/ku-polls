@@ -1,6 +1,7 @@
 """File for views class for polls app."""
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
@@ -49,6 +50,7 @@ class ResultsView(generic.DetailView):
     template_name = 'polls/results.html'
 
 
+@login_required
 def vote(request, question_id):
     """Operation when user submit the result."""
     question = get_object_or_404(Question, pk=question_id)

@@ -3,6 +3,7 @@
 import datetime
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 class Question(models.Model):
@@ -40,3 +41,19 @@ class Choice(models.Model):
     def __str__(self):
         """Return string on Choice model as the choice."""
         return self.choice_text
+
+    @property
+    def votes(self) -> int:
+        """Return votes number for this choice"""
+        return Vote.objects.filter(choice=self).count()
+
+
+class Vote(models.Model):
+    """Vote database model for binding it with question model."""
+
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+
+    def __str__(self):
+        """Return string on Vote model as the vote."""
+        return f"Vote by {self.user.username} for {self.choice.choice_text}"

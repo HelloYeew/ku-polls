@@ -7,12 +7,12 @@ class UserAuthTest(TestCase):
 
     def setUp(self):
         super().setUp()
-        self.username = "testuser"
-        self.password = "Fat-Chance!"
+        self.username = "HelloYeew"
+        self.password = "TinyGummud"
         self.user1 = User.objects.create_user(
                          username=self.username,
                          password=self.password,
-                         email="testuser@nowhere.com")
+                         email="hello@yeew.com")
         self.user1.first_name = "Tester"
         self.user1.save()
 

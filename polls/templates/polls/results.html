@@ -20,9 +20,6 @@
   </tbody>
 </table>
 
-{% if question.can_vote %}
-<a class="btn btn-primary btn-sm" href="{% url 'polls:detail' question.id %}" role="button">Vote again?</a>
-{% endif %}
 <a class="btn btn-secondary btn-sm" href="{% url 'polls:index' %}" role="button">Back to List of Polls</a>
 
 {% endblock %}

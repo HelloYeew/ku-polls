@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic
-from .models import Question, Choice
+from .models import Question, Choice, Vote
 from django.utils import timezone
 
 
@@ -63,8 +63,12 @@ def vote(request, question_id):
             'error_message': "You didn't select a choice.",
         })
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
+        try:
+            user_vote = Vote.objects.get(choice__question=question, user=request.user)
+            user_vote.choice = selected_choice
+            user_vote.save()
+        except Vote.DoesNotExist:
+            Vote.objects.create(choice=selected_choice, user=request.user)
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.

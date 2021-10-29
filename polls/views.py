@@ -8,6 +8,9 @@ from django.urls import reverse
 from django.views import generic
 from .models import Question, Choice, Vote
 from django.utils import timezone
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
 
 
 class IndexView(generic.ListView):
@@ -73,3 +76,21 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+
+def signup(request):
+    """Register a new user."""
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_passwd = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=raw_passwd)
+            login(request, user)
+            return redirect('polls')
+        # what if form is not valid?
+        # we should display a message in signup.html
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})

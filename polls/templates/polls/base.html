@@ -15,6 +15,11 @@
   <nav class="navbar navbar-dark bg-dark" aria-label="KU Polls header">
     <div class="container-fluid">
       <a class="navbar-brand" href="{% url "polls:index" %}">KU Polls</a>
+        {% if user.is_authenticated %}
+        <p class="text-white">Welcome, {{ user.username }}! <a class="btn btn-primary" href="{% url "logout" %}" role="button">Logout</a></p>
+        {% else %}
+        <p><a class="btn btn-primary" href="{% url "login" %}" role="button">Login</a> <a class="btn btn-primary" href="{% url "signup" %}" role="button">Sign Up</a></p>
+        {% endif %}
     </div>
   </nav>
 

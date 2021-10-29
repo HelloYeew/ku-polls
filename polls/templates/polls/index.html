@@ -3,8 +3,6 @@
 
 {% block content %}
 
-{#<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">#}
-
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
@@ -13,7 +11,6 @@
         {% else %}
             <li>{{ question.question_text }} <button type="button" class="btn btn-primary btn-sm" disabled>Vote</button> <a class="btn btn-secondary btn-sm" href="{% url 'polls:results' question.id %}" role="button">Result</a> </li>
         {% endif %}
-
     {% endfor %}
     </ul>
 {% else %}

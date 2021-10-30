@@ -1,4 +1,5 @@
 {% extends "polls/base.html" %}
+{% load get_choice_result %}
 
 {% block content %}
 
@@ -9,7 +10,7 @@
 <form action="{% url 'polls:vote' question.id %}" method="post">
 {% csrf_token %}
 {% for choice in question.choice_set.all %}
-    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" {{ choice|get_choice_result:user }}>
     <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
 {% endfor %}
 <input class="btn btn-success btn-sm" type="submit" value="Vote"> <a class="btn btn-secondary btn-sm" href="{% url 'polls:index' %}" role="button">Back to List of Polls</a>
